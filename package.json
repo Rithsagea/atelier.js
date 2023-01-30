@@ -2,11 +2,11 @@
   "name": "miku.js",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "App.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/app.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/app.js\""
+    "start": "npx tsc && node dist/App.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/App.js\""
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Rithsagea/miku.js#readme",
   "dependencies": {
+    "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2"
   },
