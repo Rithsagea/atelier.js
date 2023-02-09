@@ -1,16 +1,18 @@
 import { Client } from "@notionhq/client";
+import { env } from "../Environment";
 
 export class Notion {
-  readonly notion = new Client({
-    auth: process.env.NOTION_TOKEN,
+  readonly client = new Client({
+    auth: env.notionToken,
   });
 
-  foo() {
-    let notion = this.notion;
+  async getUsers() {
+    return await this.client.users.list({});
+  }
 
-    (async () => {
-      const listUsersResponse = await notion.users.list({});
-      console.log(listUsersResponse);
-    })();
+  async getProjects() {
+    return await this.client.databases.query({
+      database_id: env.notionTaskDatabaseId,
+    });
   }
 }
