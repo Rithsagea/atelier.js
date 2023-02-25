@@ -1,11 +1,12 @@
-import { Bot } from "./discord/Bot";
-import { env } from "./Environment";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+import { DiscordClient } from "./discord/Bot";
 import { Notion } from "./notion/Notion";
 import { Server } from "./server/Server";
 
 const server = new Server();
-const bot = new Bot();
-const notion = new Notion();
 
 // server.listen();
-// bot.login();
+DiscordClient.login(process.env.BOT_TOKEN as string);

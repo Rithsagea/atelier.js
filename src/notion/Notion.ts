@@ -1,18 +1,39 @@
 import { Client } from "@notionhq/client";
-import { env } from "../Environment";
 
-export class Notion {
-  readonly client = new Client({
-    auth: env.notionToken,
-  });
+const client = new Client({
+  auth: process.env.NOTION_TOKEN as string,
+});
 
-  async getUsers() {
-    return await this.client.users.list({});
-  }
+const Notion = {
+  getUsers: async () => {
+    return await client.users.list({});
+  },
 
-  async getProjects() {
-    return await this.client.databases.query({
-      database_id: env.notionTaskDatabaseId,
+  getSprints: async () => {
+    return await client.databases.query({
+      database_id: process.env.NOTION_DATABASE_ID as string,
+      filter: {
+        and: [
+          {
+            property: "Type",
+            select: { equals: "Sprint" },
+          },
+          {
+            or: [
+              { property: "Status", status: { equals: "In Progress" } },
+              { property: "Status", status: { equals: "Not Started" } },
+            ],
+          },
+        ],
+      },
+      sorts: [
+        {
+          property: "Due Date",
+          direction: "descending",
+        },
+      ],
     });
-  }
-}
+  },
+};
+
+export { client as NotionClient, Notion };
